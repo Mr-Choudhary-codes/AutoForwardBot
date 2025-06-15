@@ -1,1 +1,41 @@
 
+services:
+  # Main Bot Service
+  - type: web
+    name: autoforwardbot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    repo: https://github.com/Mr-Choudhary-codes/AutoForwardBot.git
+    branch: main
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: API_ID
+        sync: false
+      - key: API_HASH
+        sync: false
+      - key: BOT_TOKEN
+        sync: false
+      - key: MONGO_URL
+        sync: false
+      - key: OWNER_ID
+        sync: false
+      - key: LOG_CHANNEL
+        sync: false
+    autoDeploy: true
+    plan: free
+
+  # Web Server Service (Flask)
+  - type: web
+    name: autoforwardbot-web
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    repo: https://github.com/Mr-Choudhary-codes/AutoForwardBot.git
+    branch: main
+    envVars:
+      - key: PORT
+        value: 8080
+    autoDeploy: true
+    plan: free
